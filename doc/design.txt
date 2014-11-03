@@ -1,0 +1,90 @@
+-------
+Content
+-------
+1. Objectives And Introduction
+2. Website Features
+3. What I Have Not Included
+4. Description Of Files And Source Code
+5. Understanding The Design
+
+
+------------------------------
+1. Objectives And Introduction
+------------------------------
+It has been a long while since I have done a web application. The last one I did was inherited from a research facility done up by some undergraduate students in Perl. Obviously when you put 'undergraduate' and 'Perl' together, you get a horrible mess. We did our best and got it working suffciently well for production within the research facility. That was nearly a decade ago.
+
+Within the span of time of my long absence from web development - the internet has changed significantly. Fueled by the rise of mobile connectivity, social media and cloud applicaitons, the internet has become so much more dynamic and interesting. I have to concede that I was out-of-date with the "under the hood" details of how the internet works.
+
+So mportal became a little mental exercise for me to remind myself and get a little up-to-date with some nuts and bolts of programming a website. I am not a GUI guru, but a "under-the-hood-backend" guy. At a glance, the mportal website itself is hardly functional. However the main takeaway is really the source code and proof-of-concept underneath. These are the "under-the-hood" building blocks, and it should be possible to expand on the technology demonstrations here and build something out of it. Features such as secure authentication, secure connections, database integration, fast-cgi, redirections, session management, etc. are in place and working. All that is needed now is to extrapolate on the ground work that has already been laid out, expand upon it, design some fancy GUI and build a proper website on top of it.
+
+And that is basically where I am stopping. This is my own "free-time" project just to satisfy my own curiosities about the backend workings of internet websites. There is definitely more that can be done but I have figured out most of what I initially set out to discover - any additional work will be profitable only if I'm getting paid :). This is really a personal proof-of-concept project that I did during free time in addition to my current full-time job. A collection of technology concepts that could be expanded to build a full website - but I am not going any further. So I'm writing out this documentation, uploading it somewhere and moving on to something else that has just interested me.
+
+
+
+-------------------
+2. Website Features
+-------------------
+A website named mportal runs on fast CGI. Programmed in Python, it is deployed on apache httpd via mod_wsgi. It accepts secure connections. A user can login via secure authentication verified via a database (in this case integration to Postgresql via psycop2). It deploys session cookies and re-directions for moving the user to secure pages.
+
+As of now session management only depends on client-side session cookies - which of course can be faked. An easy fix is to update the SQL functions to include session tracking parameters in the database itself. I just have not gotten around to implementing it. This level of security may be considered unnecessary depending on the nature of the website.
+
+
+
+---------------------------
+3. What I Have Not Included
+---------------------------
+What is not included are: 
+(1) Database initialization scripts and functions. 
+(2) Httpd configuration scripts.
+
+Simply because I have some private information inside those. Besides, the database integration is designed to be SQL-function-centric here. You should be easily able to substitute your own functions.
+
+
+
+---------------------------------------
+4. Description Of Files And Source Code
+---------------------------------------
+mportal.config: 
+Simple configuration file. Place this in a location that your WSGI configuration can locate e.g. a home directory that WSGIDaemonProcess can locate.
+
+wsgi_entry.py:
+Entry point for WSGI - refer to the official WSGI documentation. You can see that I have made very little changes from the official tutorial example.
+
+wsgi_start.py:
+Referenced by WSGIImportScript. This initializes database connections, log file handler. Can be further modified to include more start-up functions.
+
+mportal.py:
+Analyses HTTP requests and route requests to different scripts as necessary. This is the main manager of the web site and is primarily called from wsgi_entry.py. Consider it as the actor that says "OK this request goes to this script, that request goes to this other script", etc.
+
+standard_pagers.py:
+Provides functions for displying standard pages.
+
+console_page.py:
+Provides functions to render a successfully logged in console page.
+
+login_mgr.py:
+Provides functions to render a login page, process login procedure.
+
+mportal_tools/mportal_db.py:
+Provides functions to access database operations.
+
+mportal_tools/mportal_log.py:
+Provides logging functions.
+
+mportal_tools/mportal_session:
+Provides functions for session management.
+
+
+
+---------------------------
+5. Understanding The Design
+---------------------------
+The website is programmed in Python. httpd is the host and mod_wsgi is used to implement WSGI. The primary objective of using WSGI is so that the HTTP server itself does not run CGI - it only starts independent processes that run CGI. If any of those processes crash or there was a programming error, the HTTP server itself is not impacted. There will also be a performance gain over traditional CGI as database connections and file handlers can persist and be shared across different multiple HTTP queries - since they are initialized and maintained in independent processes.
+
+With this in retrospect, one of the biggest challenge is getting to grips with WSGI as opposed to traditional simple CGI. There are definitely much more configuration steps which are more complicated. Be sure to spend time reqding through the documentation and examples for WSGI.
+
+All file handlers and database connections are initialized when httpd starts the WSGI processes. See WSGIImportScript and wsgi_start.py.
+
+All HTTP requests have their entry point at wsgi_entry.py. mportal.py then directs the traffic to the other scripts.
+
+Read through the rest of the documentation in the source code itself. Trace a HTTP request from wsgi_entry.py -> mportal.py and understand how it works. Documentation should be sufficient.
