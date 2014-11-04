@@ -17,6 +17,9 @@
 
 import os, binascii, Cookie
 import standard_pages, console_page
+from wheezy.template.engine import Engine
+from wheezy.template.ext.core import CoreExtension
+from wheezy.template.loader import FileLoader
 from mportal_tools import mportal_session, http_response
 
 

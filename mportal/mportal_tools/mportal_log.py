@@ -37,7 +37,7 @@ def init_log():
 
 	# Get logfile name and open it for writing.
 	config = ConfigParser.ConfigParser()
-	if len(config.read('mportal.config')) == 0:
+	if len(config.read('mportal/config/mportal.config')) == 0:
 		sys.exit('Config Error')
 	stdout = config.get('LOG', 'logfile')
 	if len(stdout) == 0:

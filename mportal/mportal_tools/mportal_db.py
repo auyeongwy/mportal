@@ -37,7 +37,7 @@ def init_db():
 	""" Initializes the database connection process-wide. Will call sys.exit() if an error is encountered. """
 	# Parse the config file for database login info.
 	config = ConfigParser.ConfigParser()
-	if len(config.read('mportal.config')) == 0:
+	if len(config.read('mportal/config/mportal.config')) == 0:
 		sys.exit('Config file error')
 	db_str = config.get('DATABASE','database')
 	user_str = config.get('DATABASE','user')
