@@ -24,7 +24,7 @@ And that is basically where I am stopping. This is my own "free-time" project ju
 -------------------
 2. Website Features
 -------------------
-A website named mportal runs on fast CGI. Programmed in Python, it is deployed on apache httpd via mod_wsgi. It accepts secure connections. A user can login via secure authentication verified via a database (in this case integration to Postgresql via psycop2). It deploys session cookies and re-directions for moving the user to secure pages.
+A website portal named mportal running on fast CGI. Programmed in Python, it is deployed on apache httpd via mod_wsgi. It accepts secure connections. A user can login via secure authentication verified via a database (in this case integration to Postgresql via psycop2). It deploys session cookies and re-directions for moving the user to secure pages.
 
 As of now session management only depends on client-side session cookies - which of course can be faked. An easy fix is to update the SQL functions to include session tracking parameters in the database itself. I just have not gotten around to implementing it. This level of security may be considered unnecessary depending on the nature of the website.
 
