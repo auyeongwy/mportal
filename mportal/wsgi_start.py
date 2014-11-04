@@ -19,7 +19,9 @@
 """
 from mportal_tools import mportal_log
 from mportal_tools import mportal_db
+from mportal_tools import mportal_urls
 
 mportal_log.init_log() # Initializes logging file handler.
 mportal_db.init_db() # Initializes database connections.
+mportal_urls.init_urls() # Initializes URL list.
 
