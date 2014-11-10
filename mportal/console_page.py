@@ -16,27 +16,13 @@
 # -*- coding: utf-8 -*-
 
 from mportal_tools import http_response
+import template_mgr, mportal_urls
 
 def user_console(p_id):
 	""" Returns a user console page.
 	return HTTResponse object.
 	"""
 	response = http_response.HTTPResponse()
-	response.html = """<!DOCTYPE html>
-	<html lang="en">
-	<head>
-	<title>Title</title>
-	<meta charset="UTF-8">
-	<meta name="keywords" content="content">
-	<link rel="stylesheet" type="text/css" href="http://127.0.0.1/style.css">
-	</head> 
-	<body>
-	<h1>Title</h1>
-	<div class="center-block">
-	<p class="center-text">Home Page</p>
-	</div>
-	</body>
-	</html>"""
-	
+	response.html = template_mgr.render_template('console', {'css_url':mportal_urls.get_url('css')})
 	return response
 

@@ -37,10 +37,13 @@ def init_urls():
 	if len(config.read('mportal/config/mportal.config')) == 0:
 		sys.exit('Config Error')
 
-	url_keys = ['home','css']
+	url_keys = ['home','css','console']
 	global g_urls_dic
-	for key in url_keys:
-		g_urls_dic[key] = config.get('URLS',key)
+	try:
+		for key in url_keys:
+			g_urls_dic[key] = config.get('URLS',key)
+	except ConfigParser.Error:
+		sys.exit('Config Error')
 
 
 

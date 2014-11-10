@@ -26,3 +26,4 @@ mportal_db.init_db() # Initializes database connections.
 mportal_urls.init_urls() # Initializes URL list.
 template_mgr.init_templates() # Initializes HTML templates.
 
+

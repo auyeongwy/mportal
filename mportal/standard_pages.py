@@ -15,29 +15,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from mportal_tools import http_response
+from mportal_tools import http_response, mportal_log
+import template_mgr, mportal_urls
+
 
 def notfound_page():
 	""" Returns a 'page not found'
 	return HTTPResponse object.
 	""" 
 	response = http_response.HTTPResponse()
-	response.html = """<!DOCTYPE html>
-	<html lang="en">
-	<head>
-	<title>Title</title>
-	<meta charset="UTF-8">
-	<meta name="keywords" content="content">
-	<link rel="stylesheet" type="text/css" href="http://127.0.0.1/style.css">
-	</head> 
-	<body>
-	<h1>Title</h1>
-	<div class="center-block">
-	<p class="center-text">Oops page not found.</p>
-	</div>
-	</body>
-	</html>"""
-
+	response.html = template_mgr.render_template('not_found', {'css_url':mportal_urls.get_url('css')})
 	return response
 
 
@@ -49,15 +36,17 @@ def redirect_console():
 	"""The HTML output"""
 	response = http_response.HTTPResponse()
 	response.status = '303 See Other'
-	response.headers.append(('Location', 'https://127.0.0.1/mportal/console'))
-	response.html = """<!DOCTYPE html>
-	<html lang="en">
-	<head>
-	<meta charset="UTF-8">
-	</head> 
-	<body>
-	</body>
-	</html>"""
+	#response.headers.append(('Location', 'https://127.0.0.1/mportal/console'))
+	response.headers.append(('Location', mportal_urls.get_url('console')))
+	response.html = template_mgr.render_template('redirect', {})
+	#response.html = """<!DOCTYPE html>
+	#<html lang="en">
+	#<head>
+	#<meta charset="UTF-8">
+	#</head> 
+	#<body>
+	#</body>
+	#</html>"""
 
 	return response
 
@@ -69,15 +58,16 @@ def redirect_login():
 	""" 
 	response = http_response.HTTPResponse()
 	response.status = '303 See Other'
-	response.headers.append(('Location', 'https://127.0.0.1/mportal'))
-	response.html = """<!DOCTYPE html>
-	<html lang="en">
-	<head>
-	<meta charset="UTF-8">
-	</head> 
-	<body>
-	</body>
-	</html>"""
+	response.headers.append(('Location', mportal_urls.get_url('home')))
+	response.html = template_mgr.render_template('redirect', {})
+	#response.html = """<!DOCTYPE html>
+	#<html lang="en">
+	#<head>
+	#<meta charset="UTF-8">
+	#</head> 
+	#<body>
+	#</body>
+	#</html>"""
 
 	return response
 
