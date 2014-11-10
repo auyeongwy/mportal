@@ -19,9 +19,10 @@
 """
 from mportal_tools import mportal_log
 from mportal_tools import mportal_db
-from mportal_tools import mportal_urls
+import mportal_urls, template_mgr
 
 mportal_log.init_log() # Initializes logging file handler.
 mportal_db.init_db() # Initializes database connections.
 mportal_urls.init_urls() # Initializes URL list.
+template_mgr.init_templates() # Initializes HTML templates.
 

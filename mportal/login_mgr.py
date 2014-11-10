@@ -16,43 +16,19 @@
 # -*- coding: utf-8 -*-
 
 import os, binascii, Cookie
-import standard_pages, console_page
+import standard_pages, console_page, template_mgr, mportal_urls
 from wheezy.template.engine import Engine
 from wheezy.template.ext.core import CoreExtension
 from wheezy.template.loader import FileLoader
-from mportal_tools import mportal_session, http_response
+from mportal_tools import mportal_session, http_response, mportal_log
 
 
 def login_page():
 	"""Produces the login page.	Usage: dictionary = login_page.login_page
 	return HTTPResponse object.
 	"""
-
 	response = http_response.HTTPResponse()
-	response.html = """<!DOCTYPE html>
-	<html lang="en">
-	<head>
-	<title>Title</title>
-	<meta charset="UTF-8">
-	<meta name="keywords" content="content">
-	<link rel="stylesheet" type="text/css" href="http://127.0.0.1/style.css">
-	</head> 
-	<body>
-	<h1>Title</h1>
-	<div class="center-block">
-	<p class="center-text">Some Content.</p>
-	<table>
-	<form action="https://127.0.0.1/mportal" method="post">
-	<input type="hidden" name="request" value="login">
-	<tr><td style="text-align:right;width:120px;">Username:</td><td><input type="text" name="user" required></td></tr>
-	<tr><td style="text-align:right;width:120px;">Password:</td><td><input type="password" name="password" required></td></tr>
-	</table>
-	<div style="padding:2px;text-align:center;"><input type="submit" value="Submit"></div>
-	</form>
-	</div>
-	</body>
-	</html>"""
-
+	response.html = template_mgr.render_template('login', {'home_url':mportal_urls.get_url('home'), 'css_url':mportal_urls.get_url('css')})
 	return response
 
 
