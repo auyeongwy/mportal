@@ -15,6 +15,25 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""
+Manages user login session.
+
+usage:
+from mportal_tools import mportal_session
+
+userid = mportal_session.login(login_dic)
+if userid == -1:
+	return "login failed"
+else:
+	session_cookie = mportal_session.new_session(userid)
+.......
+.......
+userid = mportal_session.check_session(cookie_from_browser)
+if userid == -1:
+	return "invalid session"
+else:
+	return "valid session"
+"""
 
 import os, binascii, hashlib, Cookie
 import mportal_db 

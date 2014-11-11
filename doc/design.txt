@@ -15,7 +15,7 @@ It has been a long while since I have done a web application. The last one I did
 
 Within the span of time of my long absence from web development - the internet has changed significantly. Fueled by the rise of mobile connectivity, social media and cloud applicaitons, the internet has become so much more dynamic and interesting. I have to concede that I was out-of-date with the "under the hood" details of how the internet works.
 
-So mportal became a little mental exercise for me to remind myself and get a little up-to-date with some nuts and bolts of programming a website. I am not a GUI guru, but a "under-the-hood-backend" guy. At a glance, the mportal website itself is hardly functional. However the main takeaway is really the source code and proof-of-concept underneath. These are the "under-the-hood" building blocks, and it should be possible to expand on the technology demonstrations here and build something out of it. Features such as secure authentication, secure connections, database integration, fast-cgi, redirections, session management, etc. are in place and working. All that is needed now is to extrapolate on the ground work that has already been laid out, expand upon it, design some fancy GUI and build a proper website on top of it.
+So mportal became a little mental exercise for me to remind myself and get a little up-to-date with some nuts and bolts of programming a website. I am not a GUI guru, but a "under-the-hood-backend" guy. At a glance, the mportal website itself is hardly functional. However the main takeaway is really the source code and proof-of-concept underneath. These are the "under-the-hood" building blocks, and it should be possible to expand on the technology demonstrations here and build something out of it. Features such as secure authentication, secure connections, database integration, fast-cgi, redirections, session management, web page templating, etc. are in place and working. All that is needed now is to extrapolate on the ground work that has already been laid out, expand upon it, design some fancy GUI and build a proper website on top of it.
 
 And that is basically where I am stopping. This is my own "free-time" project just to satisfy my own curiosities about the backend workings of internet websites. There is definitely more that can be done but I have figured out most of what I initially set out to discover - any additional work will be profitable only if I'm getting paid :). This is really a personal proof-of-concept project that I did during free time in addition to my current full-time job. A collection of technology concepts that could be expanded to build a full website - but I am not going any further. So I'm writing out this documentation, uploading it somewhere and moving on to something else that has just interested me.
 
@@ -24,7 +24,7 @@ And that is basically where I am stopping. This is my own "free-time" project ju
 -------------------
 2. Website Features
 -------------------
-A website portal named mportal running on fast CGI. Programmed in Python, it is deployed on apache httpd via mod_wsgi. It accepts secure connections. A user can login via secure authentication verified via a database (in this case integration to Postgresql via psycop2). It deploys session cookies and re-directions for moving the user to secure pages.
+A website portal named mportal running on fast CGI. Programmed in Python, it is deployed on apache httpd via mod_wsgi. It accepts secure connections. A user can login via secure authentication verified via a database (in this case integration to Postgresql via psycop2). It deploys session cookies and re-directions for moving the user to secure pages. wheezy.template is used to generate web pages.
 
 As of now session management only depends on client-side session cookies - which of course can be faked. An easy fix is to update the SQL functions to include session tracking parameters in the database itself. I just have not gotten around to implementing it. This level of security may be considered unnecessary depending on the nature of the website.
 
@@ -37,7 +37,7 @@ What is not included are:
 (1) Database initialization scripts and functions. 
 (2) Httpd configuration scripts.
 
-Simply because I have some private information inside those. Besides, the database integration is designed to be SQL-function-centric here. You should be easily able to substitute your own functions.
+Simply because those should be unique to different websites.
 
 
 
@@ -45,18 +45,18 @@ Simply because I have some private information inside those. Besides, the databa
 4. Description Of Files And Source Code
 ---------------------------------------
 mportal.config: 
-Simple configuration file. Place this in a location that your WSGI configuration can locate e.g. a home directory that WSGIDaemonProcess can locate.
+Simple configuration file. Place this in a location that your WSGI configuration can locate e.g. a home directory that WSGIDaemonProcess can locate. By default mportal looks for this in the directory "<WSGIDaemonProcess configured directory>/mportal/config"
 
 wsgi_entry.py:
-Entry point for WSGI - refer to the official WSGI documentation. You can see that I have made very little changes from the official tutorial example.
+Entry point for WSGI - refer to the official WSGI documentation to configure where the server looks for this. You can see that I have made very little changes from the official tutorial example.
 
 wsgi_start.py:
-Referenced by WSGIImportScript. This initializes database connections, log file handler. Can be further modified to include more start-up functions.
+Referenced by WSGIImportScript, so read the WSGI documentation to point the server to look for this. This initializes database connections, log file handler. Can be further modified to include more start-up functions.
 
 mportal.py:
 Analyses HTTP requests and route requests to different scripts as necessary. This is the main manager of the web site and is primarily called from wsgi_entry.py. Consider it as the actor that says "OK this request goes to this script, that request goes to this other script", etc.
 
-standard_pagers.py:
+standard_pages.py:
 Provides functions for displying standard pages.
 
 console_page.py:
@@ -64,6 +64,12 @@ Provides functions to render a successfully logged in console page.
 
 login_mgr.py:
 Provides functions to render a login page, process login procedure.
+
+mportal_urls.py:
+Convenience module that returns URLs defined in the configuration file mportal.config. Should be trivia to extend this to provide much more information.
+
+template_mgr.py
+Templating brains of the applicaiton using wheezy.template. All web page HTML are rendered by this.
 
 mportal_tools/mportal_db.py:
 Provides functions to access database operations.
@@ -73,6 +79,9 @@ Provides logging functions.
 
 mportal_tools/mportal_session:
 Provides functions for session management.
+
+mportal_tools/http_response.py:
+Convenience class to describe HTTP response for WSGI. See wsgi_entry.py and compare to the WSGI tutorial to see how it is used.
 
 
 
@@ -86,5 +95,9 @@ With this in retrospect, one of the biggest challenge is getting to grips with W
 All file handlers and database connections are initialized when httpd starts the WSGI processes. See WSGIImportScript and wsgi_start.py.
 
 All HTTP requests have their entry point at wsgi_entry.py. mportal.py then directs the traffic to the other scripts.
+
+All HTML are rendered via template_mgr.py.
+
+All database operations are implemented by database-side functions/procedures, with little SQL written in mportal itself. See mporal_db.py. Should be trivia to change and adapt this as preferred.
 
 Read through the rest of the documentation in the source code itself. Trace a HTTP request from wsgi_entry.py -> mportal.py and understand how it works. Documentation should be sufficient.

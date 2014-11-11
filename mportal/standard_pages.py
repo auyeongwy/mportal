@@ -15,6 +15,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""
+Manages and provides selected standard pages such as "page not found" and HTTP redirect operations.
+"""
+
 from mportal_tools import http_response, mportal_log
 import template_mgr, mportal_urls
 
@@ -36,18 +40,8 @@ def redirect_console():
 	"""The HTML output"""
 	response = http_response.HTTPResponse()
 	response.status = '303 See Other'
-	#response.headers.append(('Location', 'https://127.0.0.1/mportal/console'))
 	response.headers.append(('Location', mportal_urls.get_url('console')))
 	response.html = template_mgr.render_template('redirect', {})
-	#response.html = """<!DOCTYPE html>
-	#<html lang="en">
-	#<head>
-	#<meta charset="UTF-8">
-	#</head> 
-	#<body>
-	#</body>
-	#</html>"""
-
 	return response
 
 
@@ -60,15 +54,6 @@ def redirect_login():
 	response.status = '303 See Other'
 	response.headers.append(('Location', mportal_urls.get_url('home')))
 	response.html = template_mgr.render_template('redirect', {})
-	#response.html = """<!DOCTYPE html>
-	#<html lang="en">
-	#<head>
-	#<meta charset="UTF-8">
-	#</head> 
-	#<body>
-	#</body>
-	#</html>"""
-
 	return response
 
 

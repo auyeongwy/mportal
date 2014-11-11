@@ -15,6 +15,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+"""
+Manages Login operations.
+"""
+
 import os, binascii, Cookie
 import standard_pages, console_page, template_mgr, mportal_urls
 from wheezy.template.engine import Engine
