@@ -25,7 +25,7 @@ class HTTPResponse:
 	def __init__(self):
 		""" Contructor with default values. """
 		self.status = '200 OK'
-		self.headers = [('Content-type', 'text/html')]
+		self.headers = [('Content-type', 'text/html'), ('Cache-Control', 'no-store')]
 		self.html =''
 
 
