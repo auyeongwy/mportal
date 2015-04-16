@@ -59,7 +59,7 @@ update users set session_id=p_session, session_date=now() where id=p_id;
 $$ LANGUAGE SQL;
 
 
-create or replace function verify_session(p_session character varying(32)) 
-returns integer as $$
-select id from users where session_id=p_session;
-$$ LANGUAGE SQL; 
+-- create or replace function verify_session(p_session character varying(32)) 
+-- returns integer as $$
+-- select id from users where session_id=p_session;
+-- $$ LANGUAGE SQL; 
