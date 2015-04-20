@@ -6,6 +6,7 @@ Content
 3. What I Have Not Included
 4. Description Of Files And Source Code
 5. Understanding The Design
+6. Deploy
 
 
 ------------------------------
@@ -101,3 +102,13 @@ All HTML are rendered via template_mgr.py.
 All database operations are implemented by database-side functions/procedures, with little SQL written in mportal itself. See mporal_db.py. Should be trivia to change and adapt this as preferred.
 
 Read through the rest of the documentation in the source code itself. Trace a HTTP request from wsgi_entry.py -> mportal.py and understand how it works. Documentation should be sufficient.
+
+
+---------
+6. Deploy
+---------
+Copy html/stye.css to a location where the static CSS file can be served.
+
+Update mportal/config/mportal.config with database values, location of log files, location of the CSS file, etc.
+
+Configure the httpd server with WSGI to define entry points, server parameters, etc.
