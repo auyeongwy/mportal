@@ -35,8 +35,7 @@ As of now session management only depends on client-side session cookies - which
 3. What I Have Not Included
 ---------------------------
 What is not included are: 
-(1) Database initialization scripts and functions. 
-(2) Httpd configuration scripts.
+(1) Database population scripts. 
 
 Simply because those should be unique to different websites.
 
@@ -45,7 +44,7 @@ Simply because those should be unique to different websites.
 ---------------------------------------
 4. Description Of Files And Source Code
 ---------------------------------------
-mportal.config: 
+config/mportal.config: 
 Simple configuration file. Place this in a location that your WSGI configuration can locate e.g. a home directory that WSGIDaemonProcess can locate. By default mportal looks for this in the directory "<WSGIDaemonProcess configured directory>/mportal/config"
 
 wsgi_entry.py:
@@ -107,8 +106,8 @@ Read through the rest of the documentation in the source code itself. Trace a HT
 ---------
 6. Deploy
 ---------
-Copy html/stye.css to a location where the static CSS file can be served.
+Copy html/style.css to a location where the static CSS file can be served.
 
 Update mportal/config/mportal.config with database values, location of log files, location of the CSS file, etc.
 
-Configure the httpd server with WSGI to define entry points, server parameters, etc.
+Configure the httpd server with WSGI to define entry points, server parameters, etc. The sample files in the httpd folder are for configuring mandatory SSL for mportal and WSGI in httpd.
